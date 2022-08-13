@@ -1,0 +1,56 @@
+/*
+
+Given a phone keypad as shown below, and an n digit number, print all words which are possible by 
+pressing the n digits on the keypad.
+
+ 1()     2(abc) 3(def) 
+ 4(ghi)  5(jkl) 6(mno)
+ 7(pqrs) 8(tuv) 9(wxyz)
+
+*/
+
+#include<iostream>
+
+using namespace std;
+
+string keypad[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+void generateWords(char* inp, char* out, int i, int j) {
+
+    // base case
+    if(inp[i] == '\0') { // or i == n
+        out[j] = '\0';
+        cout << out << endl;
+        return;
+    }
+
+    // recursive case
+
+    // make a decision for the digit at the ith digit
+    int d = inp[i]-'0';
+
+    if(d == 0 or d == 1) {
+        // skip the ith digit and ask your friend to take 
+        // decisions for the remaining digits 
+        generateWords(inp, out, i+1, j);
+        return;
+    } 
+
+    string optionString = keypad[d];
+    for(char c_k : optionString) {
+        out[j] = c_k;
+        // ask your friend to take decisions for the remaining digits
+        generateWords(inp, out, i+1, j+1);
+    }
+    
+}
+
+int main() {
+	
+    char inp[] = "213";
+    char out[10];
+
+    generateWords(inp, out, 0, 0);
+
+	return 0;
+}
