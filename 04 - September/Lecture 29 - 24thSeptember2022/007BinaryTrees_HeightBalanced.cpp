@@ -105,6 +105,75 @@ bool checkHeightBalanced(node* root) {
 
 }
 
+class Pair {
+
+	public :
+
+		bool isBalanced;
+		int height;
+
+};
+
+// Pair checkHeightBalancedEfficient(node* root) {
+
+// 	Pair p;
+
+// 	// base case
+// 	if(!root) { // root == NULL
+// 		// tree is empty
+// 		p.isBalanced = true;
+// 		p.height = -1;
+// 		return p;
+// 	}
+
+// 	// recursive case
+
+// 	// 1. ask your friend to check if the leftSubtree is heighBalanced & to simultaneously compute the height of the leftSubtree
+// 	Pair pL = checkHeightBalancedEfficient(root->left);
+
+// 	// 2. ask your friend to check if the rightSubtree is heighBalanced & to simultaneously compute the height of the rightSubtree
+// 	Pair pR = checkHeightBalancedEfficient(root->right);
+
+// 	// 3. check if the root node is heightBalanced
+// 	bool z = abs(pL.height - pR.height) <= 1 ? true : false;
+
+// 	p.isBalanced = pL.isBalanced && pR.isBalanced && z;
+// 	p.height = 1 + max(pL.height, pR.height);
+
+// 	return p;
+
+// }
+
+
+pair<bool, int> checkHeightBalancedEfficient(node* root) {
+
+	pair<bool, int> p;
+
+	// base case
+	if(!root) { // root == NULL
+		// tree is empty
+		p.first = true;
+		p.second = -1;
+		return p;
+	}
+
+	// recursive case
+
+	// 1. ask your friend to check if the leftSubtree is heighBalanced & to simultaneously compute the height of the leftSubtree
+	pair<bool, int> pL = checkHeightBalancedEfficient(root->left);
+
+	// 2. ask your friend to check if the rightSubtree is heighBalanced & to simultaneously compute the height of the rightSubtree
+	pair<bool, int> pR = checkHeightBalancedEfficient(root->right);
+
+	// 3. check if the root node is heightBalanced
+	bool z = abs(pL.second - pR.second) <= 1 ? true : false;
+
+	p.first = pL.first && pR.first && z;
+	p.second = 1 + max(pL.second, pR.second);
+
+	return p;
+
+}
 
 int main() {
 
@@ -113,6 +182,16 @@ int main() {
 	checkHeightBalanced(root) ? cout << "height-balanced!" << endl :
 	                            cout << "not height-balanced" << endl;
 
+	// Pair p = checkHeightBalancedEfficient(root);
+
+	// p.isBalanced ? cout << "height-balanced!" << endl :
+	//                cout << "not height-balanced !" << endl;
+
+    pair<bool, int> p = checkHeightBalancedEfficient(root);
+
+	p.first ? cout << "height-balanced!" << endl :
+	          cout << "not height-balanced !" << endl;
+                            
 
 	return 0;
 }
